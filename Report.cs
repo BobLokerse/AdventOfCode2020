@@ -7,24 +7,31 @@ namespace AdventOfCode_Day1_ReportRepair
     public class Report
     {
         private const int Year = 2020;
-        public static int? Fix()
+        public static int? Fix(out (int? x, int? y, int? z) entries)
         {
             var lines = File.ReadAllLines(@".\input.txt");
             var list = lines.ToList();
 
-            foreach (var entry in list)
+            foreach (var entry1 in list)
             {
-                var entryX = int.Parse(entry);
-                var entryY = Year - entryX;
+                var entryX = int.Parse(entry1);
+                var sumY = Year - entryX;
 
-                if (list.Contains(entryY.ToString()))
+                foreach (var entry2 in list.Skip(1))
                 {
-                    Console.WriteLine($"EntryX:{entryX}, EntryY:{entryY}");
-                    return entryX * entryY;
+                    var entryY = int.Parse(entry2);
+                    var entryZ = sumY - entryY;
+
+                    if (list.Skip(1).Contains(entryZ.ToString()))
+                    {
+                        entries = (entryX, entryY, entryZ);
+                        return entryX * entryY * entryZ;
+                    }    
                 }
             }
             
-            return null; // 1007104
+            entries = (null, null, null);
+            return null; 
         }
     }
 }

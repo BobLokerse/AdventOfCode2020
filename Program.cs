@@ -2,8 +2,6 @@
 
 namespace AdventOfCode_Day1_ReportRepair
 {
-    // EntryX:1124, EntryY:896
-    // Answer:1007104
     /// <summary>
     /// https://adventofcode.com/2020/day/1
     ///
@@ -26,8 +24,11 @@ namespace AdventOfCode_Day1_ReportRepair
             Console.WriteLine("Report repair");
             Console.WriteLine();
 
-            var answer = Report.Fix();
-            Console.WriteLine($"Answer:{answer}");
+            var answer = Report.Fix(out var entries);
+
+            Console.WriteLine($"EntryX:{entries.x}, EntryY:{entries.y}, EntryZ:{entries.z}");
+            Console.WriteLine($"Sum:{entries.x + entries.y + entries.z}" );
+            Console.WriteLine($"Answer (multiplied):{answer}");
 
             Console.WriteLine();
             Console.WriteLine("Press any key.");
