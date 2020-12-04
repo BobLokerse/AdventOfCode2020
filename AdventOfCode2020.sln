@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.1267
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventOfCode-FixReport", "FixReport\AdventOfCode-FixReport.csproj", "{5CE2AECE-13AD-48D9-B29E-4F65B34F9772}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PasswordPhilosophy", "PasswordPhilosophy\PasswordPhilosophy.csproj", "{AF32CED7-2C9F-4AFB-B642-089282705E8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{5CE2AECE-13AD-48D9-B29E-4F65B34F9772}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CE2AECE-13AD-48D9-B29E-4F65B34F9772}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CE2AECE-13AD-48D9-B29E-4F65B34F9772}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF32CED7-2C9F-4AFB-B642-089282705E8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF32CED7-2C9F-4AFB-B642-089282705E8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF32CED7-2C9F-4AFB-B642-089282705E8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF32CED7-2C9F-4AFB-B642-089282705E8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
