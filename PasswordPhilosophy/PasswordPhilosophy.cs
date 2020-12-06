@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PasswordPhilosophy
@@ -19,20 +20,15 @@ namespace PasswordPhilosophy
         /// The valid passwords are stored in <see cref="ValidPasswords"/>.
         /// The count in 
         /// </summary>
-        public void CountNrOfValidPasswords()
+        /// <param name="validationMethod"></param>
+        public void CountNrOfValidPasswords(Func<PasswordWithSpec, bool> validationMethod)
         {
-            // TODO rewrite rom dictionay to "keyValue pair list" - spec might not be unique
-            //var dictionary = _passwords
-            //    .Select((value, index) => new {Key = index, Value = value})
-            //    .ToDictionary(keyValue => keyValue.Key, o => o.Value);
-
             var pwSplitUp = _passwords.Select(SplitUp);
 
             ValidPasswords = new List<PasswordWithSpec>();
             foreach (var passwordWithSpec in pwSplitUp)
             {
-                var isValid = CheckPasswordOnSpec(passwordWithSpec);
-                if (isValid)
+                if (validationMethod(passwordWithSpec))
                 {
                     ValidPasswords.Add(passwordWithSpec);
                 }
@@ -52,17 +48,38 @@ namespace PasswordPhilosophy
                 Spec = new Spec
                 {
                     Character = specSplit[1].First(),
-                    Min = int.Parse(occ[0]),
-                    Max = int.Parse(occ[1])
+                    First = int.Parse(occ[0]),
+                    Second = int.Parse(occ[1])
                 }
             };
             return pwSpec;
         }
 
-        private  bool CheckPasswordOnSpec(PasswordWithSpec passwordWithSpec)
+        internal bool CheckPasswordOnSpecPart1(PasswordWithSpec passwordWithSpec)
         {
             var nrOfOccurances = passwordWithSpec.Password.Count(c => c == passwordWithSpec.Spec.Character);
-            return nrOfOccurances >= passwordWithSpec.Spec.Min && nrOfOccurances <= passwordWithSpec.Spec.Max;
+            return nrOfOccurances >= passwordWithSpec.Spec.First && nrOfOccurances <= passwordWithSpec.Spec.Second;
+        }
+
+        /// <summary>
+        /// Each policy actually describes two positions in the password,
+        /// where 1 means the first character, 2 means the second character, and so on.
+        /// (Be careful; Toboggan Corporate Policies have no concept of "index zero"!)
+        /// Exactly one of these positions must contain the given letter.
+        /// Other occurrences of the letter are irrelevant for the purposes of policy enforcement.
+        /// </summary>
+        /// <param name="passwordWithSpec"></param>
+        /// <returns></returns>
+        internal bool CheckPasswordOnSpecPart2(PasswordWithSpec passwordWithSpec)
+        {
+            var charToCheck = passwordWithSpec.Spec.Character;
+            var firstPosZeroBased = passwordWithSpec.Spec.First - 1;
+            var secondPosZeroBased = passwordWithSpec.Spec.Second - 1;
+
+            var checkFirstChar = passwordWithSpec.Password[firstPosZeroBased] == charToCheck;
+            var checkSecondChar = passwordWithSpec.Password[secondPosZeroBased] == charToCheck;
+            var xor = checkFirstChar ^ checkSecondChar;
+            return xor;
         }
     }
 
@@ -82,14 +99,14 @@ namespace PasswordPhilosophy
     public struct Spec
     {
         public char Character { get; set; }
-        public int Min { get; set; }
-        public int Max { get; set; }
+        public int First { get; set; }
+        public int Second { get; set; }
 
         /// <summary>Returns the fully qualified type name of this instance.</summary>
         /// <returns>The fully qualified type name.</returns>
         public override string ToString()
         {
-            return $"{Min}-{Max} {Character}";
+            return $"{First}-{Second} {Character}";
         }
     }
 }
